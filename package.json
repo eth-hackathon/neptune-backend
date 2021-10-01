@@ -1,0 +1,21 @@
+{
+  "name": "neptune backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ETH online hackathon, project Neptune, backend repo",
+  "scripts": {
+    "start": "node app",
+    "server": "nodemon"
+  },
+  "author": "Kipitup",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.22.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
