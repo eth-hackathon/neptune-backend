@@ -5,7 +5,8 @@
   "description": "ETH online hackathon, project Neptune, backend repo",
   "scripts": {
     "start": "node app",
-    "server": "nodemon"
+    "server": "nodemon",
+    "debug": "DEBUG=express:* nodemon"
   },
   "author": "Kipitup",
   "license": "ISC",

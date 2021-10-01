@@ -1,12 +1,10 @@
-const express = require('express')
+require('dotenv').config()
+const express = require("express")
 const cors = require("cors");
-const app = express()
-const port = 8080
+const myLogger = require("./logger")
+const routes = require("./routes")
 
-const myLogger = function (req, res, next) {
-  console.log('URL: ', req.url)
-  next()
-}
+const app = express()
 
 // middlewares
 app.use(cors())
@@ -14,16 +12,8 @@ app.use(express.json());
 app.use(myLogger)
 
 // routes
-app.get('/api/example', (req, res) => {
-  console.log(req.query)
-  res.send('Hello World!')
-})
+app.use('/', routes);
 
-app.post('/api/example', (req, res) => {
-  console.log(req.body)
-  res.send('This is a post request my friend')
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+app.listen(process.env.PORT, () => {
+  console.log(`Neptune app listening at http://localhost:${process.env.PORT}`)
 })
