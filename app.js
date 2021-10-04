@@ -1,8 +1,9 @@
-require('dotenv').config()
 const express = require("express")
 const cors = require("cors");
 const myLogger = require("./logger")
-const routes = require("./routes")
+const routes = require("./routes/index")
+const ceramic = require("./service/ceramic.js")
+require('dotenv').config()
 
 const app = express()
 
@@ -10,6 +11,8 @@ const app = express()
 app.use(cors())
 app.use(express.json());
 app.use(myLogger)
+
+ceramic.authenticate(process.env.SEED);
 
 // routes
 app.use('/', routes);
