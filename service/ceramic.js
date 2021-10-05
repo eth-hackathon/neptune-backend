@@ -53,19 +53,35 @@ class ceramicSingleton {
 
   async addNewUser ({ethAddr, stackID, protocols}) {
     try {
-      const doc = await TileDocument.create(
-        this.ceramic,
-        { stackID, ethAddr, protocols },
-        {
-          controllers: [ this.idx.id ],
-          schema: schemas.ProfilSchema,
-        }
-      );
+      // const doc = await TileDocument.create(
+      //   this.ceramic,
+      //   { stackID, ethAddr, protocols },
+      //   {
+      //     controllers: [ this.idx.id ],
+      //     schema: schemas.ProfilSchema,
+      //   }
+      // );
 
-      return doc.id.toString();
+      // const streamId = doc.id.toString();
+
+      // console.log('StreamId is : ', streamId)
+
+      const listOfProfils = await this.idx.get('profilListDef');
+
+      const list = listOfProfils ? listOfProfils.profils : []
+
+      const recordId = await this.idx.set('profilListDef', {
+        profils: [{ stackID, ethAddr, protocols }, ...list],
+      });
+
+      return recordId
     } catch (error) {
       console.log(error);
     }
+  }
+
+  getServerDID () {
+    return this.ceramic.did._id;
   }
 
   getInstance () {

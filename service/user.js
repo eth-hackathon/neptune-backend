@@ -13,7 +13,7 @@ const addUser = async function (req, res, next) {
     res.send(streamID);
   } catch (error) {
     console.log(error);
-    next()
+    next();
   }
 }
 
@@ -26,8 +26,20 @@ const getUser = async function (req, res, next) {
     res.send(stream);
   } catch (error) {
     console.log(error);
-    next()
+    next();
   }
 }
 
-module.exports = { addUser, getUser };
+const getServerDID = async function (req, res, next) {
+  try {
+    const did = await ceramic.getServerDID();
+
+    console.log(did);
+    res.send(did);
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+}
+
+module.exports = { addUser, getUser, getServerDID };

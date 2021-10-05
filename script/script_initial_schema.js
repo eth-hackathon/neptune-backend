@@ -86,6 +86,40 @@ const ProfilsListSchema = {
   },
 }
 
+const ProtocolsListSchema = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  title: 'NeptuneProtocolsList',
+  type: 'object',
+  properties: {
+    notes: {
+      type: 'array',
+      title: 'protocols',
+      items: {
+        type: 'object',
+        title: 'protocolItem',
+        properties: {
+          id: {
+            $ref: '#/definitions/CeramicDocId',
+          },
+          title: {
+            type: 'string',
+            title: 'title',
+            maxLength: 100,
+          },
+        },
+      },
+    },
+  },
+  definitions: {
+    CeramicDocId: {
+      type: 'string',
+      pattern: '^ceramic://.+(\\?version=.+)?',
+      maxLength: 150,
+    },
+  },
+
+}
+
 async function createSchema() {
   try {
 
