@@ -6,6 +6,7 @@ const KeyDidResolver = require('key-did-resolver').default;
 const ThreeIdResolver = require('@ceramicnetwork/3id-did-resolver').default;
 const { Ed25519Provider } = require('key-did-provider-ed25519')
 const DID = require('dids').DID
+const { addProtocols } = require('./add_protocol.js')
 require('dotenv').config()
 
 const UsersListSchema = {
@@ -39,7 +40,6 @@ const ProtocolsListSchema = {
   definitions: {
     CeramicDocId: {
       type: 'string',
-      pattern: '^ceramic://.+(\\?version=.+)?',
       maxLength: 150,
     },
   },
@@ -93,8 +93,7 @@ const ProfilSchema = {
       $ref: '#/definitions/caip10Link',
     },
     ethAddr: {
-      type: 'string',
-      title: 'crypto address link with the caip10link',
+      type: 'string', title: 'crypto address link with the caip10link',
       $ref: '#/definitions/ethAddr',
     }
   },
@@ -160,25 +159,17 @@ const ProtocolSchema = {
     users: {
       type: 'string',
       title: 'array of all users registered',
-      $ref: '#/definitions/CeramicDocId',
     },
     epoch: {
       type: 'string',
       title: 'current epoch statistic',
-      $ref: '#/definitions/CeramicDocId',
     },
     moderation: {
       type: 'string',
       title: 'moderation for current epoch',
-      $ref: '#/definitions/CeramicDocId',
     },
   },
   definitions: {
-    CeramicDocId: {
-      type: 'string',
-      pattern: '^ceramic://.+(\\?version=.+)?',
-      maxLength: 150,
-    },
     caip10Link: {
       type: 'string',
       pattern: "^ceramic://.+",
@@ -212,6 +203,10 @@ const ModerationSchema = {
             type: 'number',
             title: 'current score for this question',
           },
+          questionTitle: {
+            type: 'string',
+            title: 'question title',
+          },
           text: {
             type: 'string',
             title: 'body of the question'
@@ -221,6 +216,26 @@ const ModerationSchema = {
             title: 'state of validation, 0 is pending, 1 is validated, 2 refused',
             pattern: "[0-2]",
             maxLength: 1,
+          },
+          shareLink: {
+            type: 'string',
+            title: 'link toward stackoverflow question or answer'
+          },
+          reputation: {
+            type: 'number',
+            title: 'user overall reputation',
+          },
+          name: {
+            type: 'string',
+            title: 'user name',
+          },
+          profileImage: {
+            type: 'string',
+            title: 'StackOverflow user profile picture',
+          },
+          userLink: {
+            type: 'string',
+            title: 'link toward the user stackoverflow account'
           },
         },
       },
@@ -240,15 +255,39 @@ const ModerationSchema = {
             type: 'number',
             title: 'current score for this answer',
           },
+          questionTitle: {
+            type: 'string',
+            title: 'question title',
+          },
           text: {
             type: 'string',
-            title: 'body of the answer',
+            title: 'body of the question'
           },
           state: {
             type: 'number',
             title: 'state of validation, 0 is pending, 1 is validated, 2 refused',
             pattern: "[0-2]",
             maxLength: 1,
+          },
+          shareLink: {
+            type: 'string',
+            title: 'link toward stackoverflow question or answer'
+          },
+          reputation: {
+            type: 'number',
+            title: 'user overall reputation',
+          },
+          name: {
+            type: 'string',
+            title: 'user name',
+          },
+          profileImage: {
+            type: 'string',
+            title: 'StackOverflow user profile picture',
+          },
+          userLink: {
+            type: 'string',
+            title: 'link toward the user stackoverflow account'
           },
         },
       },
@@ -285,14 +324,10 @@ const EpochStatisticSchema = {
   }
 }
 
-const API_URL = "https://ceramic-clay.3boxlabs.com";
-
-
 async function createModel() {
-  console.log(EpochStatisticSchema)
   try {
 
-    const ceramic = new Ceramic(API_URL);
+    const ceramic = new Ceramic(process.env.CERAMIC_API_URL);
     const keyDidResolver = KeyDidResolver.getResolver()
 
     const threeIdResolver = ThreeIdResolver.getResolver(ceramic)
@@ -327,17 +362,13 @@ async function createModel() {
       manager.createSchema('epochStatistic', EpochStatisticSchema),
     ])
 
+    console.log(protocolUsers)
 
     const profilDefinition = await manager.createDefinition('profil', {
       name: 'List of profils',
       description: 'Neptune project, format for list of profils',
       schema: manager.getSchemaURL(profil)
     })
-
-    console.log(epochStatistic)
-    // console.log(profilDefinition)
-
-    // manager.get()
 
     const usersListDefinition = await manager.createDefinition('usersList', {
       name: 'List of users',
@@ -351,20 +382,11 @@ async function createModel() {
       schema: manager.getSchemaURL(protocolsList)
     })
 
-    // const res = await manager.createTile('random',
-    //   {
-    //     nbQuestions: 10,
-    //     scoreQuestions: 5,
-    //     nbAnswers: 12,
-    //     scoreAnswers: 4,
-    //     reward: 10000,
-    //   },
-    //   { schema: manager.getSchemaURL(epochStatistic) },
-    // )
+    await addProtocols({ ceramic, manager, protocol, protocolUsers, moderation, epochStatistic });
 
     const model = await manager.toPublished()
 
-    await writeFile('./model.json', JSON.stringify(model))
+    await writeFile('./schema/model.json', JSON.stringify(model))
   } catch (error) {
     console.error('Ceramic schema error: \n', error)
   }

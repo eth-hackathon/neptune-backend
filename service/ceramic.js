@@ -4,13 +4,15 @@ const ThreeIdResolver = require('@ceramicnetwork/3id-did-resolver').default;
 const { Ed25519Provider } = require('key-did-provider-ed25519');
 const { TileDocument } = require('@ceramicnetwork/stream-tile');
 const DID = require('dids').DID
-const { IDX } = require("@ceramicstudio/idx");
-const { definitions, schemas } = require('../config.json');
+const { DataModel } = require('@glazed/datamodel');
+const { DIDDataStore } = require('@glazed/did-datastore');
+const modelAliases = require('../schema/model.json');
 
 class ceramicSingleton {
   constructor() {
     this.ceramic;
-    this.idx;
+    this.model;
+    this.store;
   }
 
   async authenticate (seed) {
@@ -30,10 +32,29 @@ class ceramicSingleton {
       await did.authenticate();
       await ceramic.setDID(did);
 
-      const idx = new IDX({ ceramic, aliases: definitions });
+      const model = new DataModel({ ceramic, model: modelAliases })
+      const store = new DIDDataStore({ ceramic, model })
+
+      // const exampleNote = await model.loadTile('random')
+      // console.log(exampleNote.id.toString());
+
+      // await exampleNote.update({
+      //   nbQuestions: 100,
+      //   scoreQuestions: 50,
+      //   nbAnswers: 120,
+      //   scoreAnswers: 40,
+      //   reward: 100000,
+      // })
+
+      // const test = await model.loadTile('random')
+
+      // console.log('test return ', test.id.toString());
+      // console.log(test.content)
+
 
       this.ceramic = ceramic;
-      this.idx = idx;
+      this.model = model;
+      this.store = store;
 
       console.log('ceramic.did : ', ceramic.did._id);
     } catch(error) {
@@ -84,8 +105,8 @@ class ceramicSingleton {
     return this.ceramic.did._id;
   }
 
-  getInstance () {
-    return this.idx;
+  getJsonModel () {
+    return modelAliases;
   }
 };
 
