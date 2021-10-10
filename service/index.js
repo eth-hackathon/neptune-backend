@@ -34,7 +34,6 @@ const getServerDID = async function (req, res, next) {
   try {
     const did = await ceramic.getServerDID();
 
-    console.log(did);
     res.send(did);
   } catch (error) {
     console.log(error);
@@ -42,4 +41,15 @@ const getServerDID = async function (req, res, next) {
   }
 }
 
-module.exports = { addUser, getUser, getServerDID };
+const getJsonModel = async function (req, res, next) {
+  try {
+    const model = await ceramic.getJsonModel();
+
+    res.send(model);
+  } catch (error) {
+    console.log(error);
+    next();
+  }
+}
+
+module.exports = { addUser, getUser, getServerDID, getJsonModel };

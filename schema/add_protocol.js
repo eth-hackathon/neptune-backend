@@ -57,14 +57,15 @@ const createAllStreams = async function ({ name, appUrl, socialMedia, config}) {
       },
       { schema: manager.getSchemaURL(protocol) },
     )
+
+    return item;
   } catch (error) {
-    console.log(error)
-  }
+    console.log(error) }
 }
 
 const addProtocols = async function (config) {
   try {
-    await createAllStreams({
+    const uni = await createAllStreams({
       name: "uniswap",
       appUrl: "https://uniswap.org/",
       socialMedia: [
@@ -75,7 +76,7 @@ const addProtocols = async function (config) {
       config
     });
 
-    await createAllStreams({
+    const ceram = await createAllStreams({
       name: "ceramic",
       appUrl: "https://ceramic.network/",
       socialMedia: [
@@ -86,7 +87,7 @@ const addProtocols = async function (config) {
       config
     });
 
-    await createAllStreams({
+    const aav = await createAllStreams({
       name: "aave",
       appUrl: "https://aave.com/",
       socialMedia: [
@@ -96,7 +97,6 @@ const addProtocols = async function (config) {
       ],
       config
     });
-
   } catch (error) {
     console.log(error);
   }

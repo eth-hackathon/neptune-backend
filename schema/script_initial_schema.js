@@ -22,7 +22,7 @@ const UsersListSchema = {
 const ProtocolsListSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'neptune project - Protocols Profils List',
-  type: 'array',
+  type: 'object',
   items: {
     type: 'object',
     title: 'protocolItem',
