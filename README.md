@@ -17,6 +17,10 @@ Before running the server, please launch the following command:
 
 The script will initialize a Ceramic node in local and add basic data to be displayed in the frontend.
 
+## Run server
+
+At the root of the directory run : `npm run server`
+
 
 ## Debugging
 For debugging with Ceramic, I recommend installing the [ceramic daemon](https://developers.ceramic.network/build/cli/installation/)
