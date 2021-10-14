@@ -23,17 +23,22 @@ const ProtocolsListSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'neptune project - Protocols Profils List',
   type: 'object',
-  items: {
-    type: 'object',
-    title: 'protocolItem',
-    properties: {
-      id: {
-        $ref: '#/definitions/CeramicDocId',
-      },
-      name: {
-        type: 'string',
-        title: "protocol's name",
-        maxLength: 100,
+  properties: {
+    list: {
+      type: 'array',
+      items: {
+        type: 'object',
+        title: 'protocolItem',
+        properties: {
+          id: {
+            $ref: '#/definitions/CeramicDocId',
+          },
+          name: {
+            type: 'string',
+            title: "protocol's name",
+            maxLength: 100,
+          }
+        },
       },
     },
   },
@@ -125,6 +130,10 @@ const ProtocolSchema = {
       type: 'string',
       title: "URL of the protocol's app",
       maxLength: 200,
+    },
+    logo: {
+      type: 'string',
+      title: 'logo of the protocol',
     },
     socialMedia: {
       type: 'array',

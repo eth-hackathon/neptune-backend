@@ -1,6 +1,6 @@
 const { TileDocument } = require('@ceramicnetwork/stream-tile')
 
-const createAllStreams = async function ({ name, appUrl, socialMedia, config}) {
+const createAllStreams = async function ({ name, logo, appUrl, socialMedia, config}) {
   const { 
     ceramic,
     manager,
@@ -50,6 +50,7 @@ const createAllStreams = async function ({ name, appUrl, socialMedia, config}) {
       {
         name,
         appUrl,
+        logo,
         socialMedia,
         users: usersStream.id.toString(),
         epoch: epochStream.id.toString(),
@@ -67,6 +68,7 @@ const addProtocols = async function (config) {
   try {
     const uni = await createAllStreams({
       name: "uniswap",
+      logo: "",
       appUrl: "https://uniswap.org/",
       socialMedia: [
         { name: "twitter", url: "https://twitter.com/Uniswap"},
@@ -78,6 +80,7 @@ const addProtocols = async function (config) {
 
     const ceram = await createAllStreams({
       name: "ceramic",
+      logo: "",
       appUrl: "https://ceramic.network/",
       socialMedia: [
         { name: "twitter", url: "https://twitter.com/ceramicnetwork"},
@@ -89,6 +92,7 @@ const addProtocols = async function (config) {
 
     const aav = await createAllStreams({
       name: "aave",
+      logo: "",
       appUrl: "https://aave.com/",
       socialMedia: [
         { name: "twitter", url: "https://twitter.com/aaveaave"},

@@ -36,13 +36,13 @@ class ceramicSingleton {
       const store = new DIDDataStore({ ceramic, model })
 
       const tiles = modelAliases.tiles;
-      const array = [
+      const list = [
         { id: tiles.uniswap, name: "uniswap" },
         { id: tiles.ceramic, name: "ceramic" },
         { id: tiles.aave, name: "aave" },
       ]
 
-      await store.set('protocolsList', array);
+      await store.set('protocolsList', {list});
 
       // const exampleNote = await model.loadTile('random')
       // console.log(exampleNote.id.toString());
