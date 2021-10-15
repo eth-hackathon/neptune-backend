@@ -1,6 +1,6 @@
 const { TileDocument } = require('@ceramicnetwork/stream-tile')
 
-const createAllStreams = async function ({ name, logo, appUrl, socialMedia, config}) {
+const createAllStreams = async function ({ name, logo, appUrl, description, socialMedia, config}) {
   const { 
     ceramic,
     manager,
@@ -51,6 +51,7 @@ const createAllStreams = async function ({ name, logo, appUrl, socialMedia, conf
         name,
         appUrl,
         logo,
+        description,
         socialMedia,
         users: usersStream.id.toString(),
         epoch: epochStream.id.toString(),
@@ -70,6 +71,7 @@ const addProtocols = async function (config) {
       name: "uniswap",
       logo: "",
       appUrl: "https://uniswap.org/",
+      description: "A decentralized protocol for automated liquidity.",
       socialMedia: [
         { name: "twitter", url: "https://twitter.com/Uniswap"},
         { name: "discord", url: "https://discord.com/invite/FCfyBSbCU5"},
@@ -82,6 +84,7 @@ const addProtocols = async function (config) {
       name: "ceramic",
       logo: "",
       appUrl: "https://ceramic.network/",
+      description: "Ceramic is a decentralized, open source platform for creating, hosting, and sharing streams of data.",
       socialMedia: [
         { name: "twitter", url: "https://twitter.com/ceramicnetwork"},
         { name: "discord", url: "https://discord.com/invite/6VRZpGP"},
@@ -94,6 +97,7 @@ const addProtocols = async function (config) {
       name: "aave",
       logo: "",
       appUrl: "https://aave.com/",
+      description: "Aave is an open source and non-custodial liquidity protocol for earning interest on deposits and borrowing assets.",
       socialMedia: [
         { name: "twitter", url: "https://twitter.com/aaveaave"},
         { name: "discord", url: "https://discord.com/invite/CvKUrqM"},

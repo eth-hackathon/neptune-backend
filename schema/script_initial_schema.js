@@ -126,6 +126,10 @@ const ProtocolSchema = {
       title: "protocol's name",
       maxLength: 100,
     },
+    description: {
+      type: 'string',
+      title: 'description of the protocol',
+    },
     appUrl: {
       type: 'string',
       title: "URL of the protocol's app",
