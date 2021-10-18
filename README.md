@@ -1,6 +1,8 @@
 # neptune-backend
 Back end for Neptune
 
+Frontend repo is [here](https://github.com/eth-hackathon/neptune)
+
 ## Env file
 Please create a `.env` file and add this :
 You'll have to ask @Kipitup for the seed.
